@@ -1,0 +1,265 @@
+<div class="container-lg">
+  <h1>Admin panel</h1>
+
+  <h3>Add a company</h3>
+  <div *ngIf="errorMessage">
+
+    <div class=
+           "alert alert-danger alert-dismissible" role="alert"
+    >{{errorMessage}}</div>
+
+  </div>
+  <form [formGroup]="companyform">
+    <div class="row">
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Company Name</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="name"
+          required
+          minlength="5"
+        >
+        <div
+          *ngIf="
+              name?.invalid &&
+              name?.touched &&
+              name?.hasError('required')
+            "
+        >
+          Company Name is required
+        </div>
+        <div *ngIf="
+              name?.invalid &&
+              name?.touched &&
+              name?.hasError('minlength')">
+          Company Name must be at least 5 characters long.
+        </div>
+      </mat-form-field>
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Company Address</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="address"
+          required
+          minlength="5"
+        >
+        <div
+          *ngIf="
+              address?.invalid &&
+              address?.touched &&
+              address?.hasError('required')
+            "
+        >
+          Company Address is required
+        </div>
+        <div *ngIf="
+              address?.invalid &&
+              address?.touched &&
+              address?.hasError('minlength')">
+          Address must be at least 5 characters long.
+        </div>
+      </mat-form-field>
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Owner Email</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="email"
+          required
+        >
+        <div
+          *ngIf="
+              email?.invalid &&
+              email?.touched &&
+              email?.hasError('required')
+            "
+        >
+          Owner email address is required
+        </div>
+        <div *ngIf="email?.hasError('email')">Email is invalid</div>
+      </mat-form-field>
+    </div>
+      <button type="submit" mat-raised-button color="primary" (click)="submit()">
+        Add Company
+      </button>
+  </form>
+
+  <div class="row mt-3">
+    <h3>Delete Company (this will also delete all related branches)</h3>
+    <mat-form-field appearance="outline" floatLabel="always">
+      <mat-label>Company</mat-label>
+      <input type="text"
+             placeholder="Pick Company"
+             aria-label="Number"
+             matInput
+             [formControl]="companyID"
+             [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredCompanies | async" (onSelectionChange)="this.company=option.id" [value]="option.companyName">
+          {{option.companyName}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+  <div>
+    <button type="submit" mat-raised-button color="warn" (click)="deleteCompany()">
+      Delete Company
+    </button>
+  </div>
+  <form [formGroup]="owner">
+  <div class="row mt-3">
+    <h3>Change owner of Company</h3>
+    <mat-form-field appearance="outline" floatLabel="always">
+      <mat-label>Company</mat-label>
+      <input type="text"
+             placeholder="Pick Company"
+             aria-label="Number"
+             matInput
+             [formControl]="companyID"
+             [matAutocomplete]="auto1">
+      <mat-autocomplete #auto1="matAutocomplete">
+        <mat-option *ngFor="let option of filteredCompanies | async" (onSelectionChange)="this.companychange=option.id" [value]="option.companyName">
+          {{option.companyName}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field appearance="outline" floatLabel="always">
+      <mat-label>Owner Mail</mat-label>
+      <input matInput
+             type="text"
+             formControlName="ownerMail">
+      <div
+        *ngIf="
+              owner?.invalid &&
+              owner?.touched &&
+              owner?.hasError('required')
+            "
+      >
+        Owner email address is required
+      </div>
+      <div *ngIf="owner?.hasError('email')">Owner email is invalid</div>
+    </mat-form-field>
+  </div>
+    </form>
+  <div>
+    <button type="submit" mat-raised-button color="primary" (click)="changeOwner()">
+      Change Owner
+    </button>
+  </div>
+  <h3 class="mt-3">Change user password</h3>
+  <div *ngIf="errorpass">
+
+    <div class=
+           "alert alert-danger alert-dismissible" role="alert"
+    >{{errorpass}}</div>
+
+  </div>
+  <form [formGroup]="passForm">
+  <div class="row">
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>User Email</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="emailpass"
+          required
+        >
+        <div
+          *ngIf="
+              emailpass?.invalid &&
+              emailpass?.touched &&
+              emailpass?.hasError('required')
+            "
+        >
+          User Email Address is required
+        </div>
+        <div *ngIf="emailpass?.hasError('email')">User Email is invalid</div>
+      </mat-form-field>
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>New Password</mat-label>
+        <input
+          matInput
+          type="password"
+          formControlName="newpassword"
+          required
+        >
+        <div *ngIf="newpassword?.invalid && newpassword?.touched">
+          <div *ngIf="newpassword?.hasError('required')">Password is required</div>
+          <div *ngIf="newpassword?.hasError('minlength')">
+            Password cannot be less than 8 characters
+          </div>
+        </div>
+      </mat-form-field>
+  </div>
+    </form>
+  <button type="submit" mat-raised-button color="primary" (click)="submitpass()">
+    Change password
+  </button>
+  <div>
+    <h3 class="mt-3">Add Manufacturer</h3>
+    <mat-form-field appearance="outline" floatLabel="always" class="me-3">
+      <mat-label>Manufacturer Name</mat-label>
+      <input matInput [formControl]="make" placeholder="Mazda">
+    </mat-form-field>
+    <button type="submit" mat-raised-button color="primary" (click)="addMake()">
+      Add manufacturer
+    </button>
+  </div>
+  <div>
+    <h3 class="mt-3">Add Model</h3>
+    <mat-form-field appearance="outline" floatLabel="always" class="me-3">
+      <mat-label>Manufacturer</mat-label>
+      <mat-select [(ngModel)]="manufacturer">
+        <mat-option *ngFor="let make of makes" [value]="make.id">
+          {{make.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+      <mat-form-field appearance="outline" floatLabel="always" class="me-3">
+        <mat-label>Model Name</mat-label>
+        <input matInput [formControl]="model" placeholder="CX-5">
+      </mat-form-field>
+      <button type="submit" mat-raised-button color="primary" (click)="addModel()">
+        Add Model
+      </button>
+  </div>
+  <div>
+    <h3 class="mt-3">Delete Manufacturer</h3>
+    <mat-form-field appearance="outline" floatLabel="always" class="me-3">
+      <mat-label>Manufacturer</mat-label>
+      <mat-select [(ngModel)]="delmanufacturer">
+        <mat-option *ngFor="let make of makes" [value]="make.id">
+          {{make.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button type="submit" mat-raised-button color="warn" (click)="deleteManufacturer()">
+      Delete Manufacturer
+    </button>
+  </div>
+
+  <div>
+    <h3 class="mt-3">Delete Model</h3>
+    <mat-form-field appearance="outline" floatLabel="always" class="me-3">
+      <mat-label>Manufacturer</mat-label>
+      <mat-select>
+        <mat-option *ngFor="let make of makes" [value]="make.id" (onSelectionChange)="getModels(make.id)">
+          {{make.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" floatLabel="always" class="me-3">
+      <mat-label>Model</mat-label>
+      <mat-select [(ngModel)]="delmodel">
+        <mat-option *ngFor="let model of modelList" [value]="model.id">
+          {{model.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button type="submit" mat-raised-button color="warn" (click)="deleteModel()">
+      Delete Model
+    </button>
+  </div>
+</div>

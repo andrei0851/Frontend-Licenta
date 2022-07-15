@@ -1,0 +1,12 @@
+<div class="container">
+    <h2>Welcome {{company?.companyName}}!</h2>
+  <h2 class="mb-3">Company Listings: </h2>
+  <div *ngFor="let seller of sellers">
+    <h3>Seller: {{seller?.firstname}}  {{seller?.lastname}} | Branch: {{seller?.branch.name}}</h3>
+    <div *ngFor="let car of seller?.vehicles">
+      <app-vechile-card
+        [vehicle]="car"
+      ></app-vechile-card>
+    </div>
+  </div>
+</div>

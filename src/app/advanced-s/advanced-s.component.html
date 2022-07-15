@@ -1,0 +1,147 @@
+<div class="container-lg">
+  <h2>Advanced Search</h2>
+  Number of listings posted: {{total}}
+  <form class="mt-3" [formGroup]="searchform">
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Make</mat-label>
+      <input type="text"
+             placeholder="Pick make"
+             aria-label="Number"
+             matInput
+             [formControl]="make"
+             [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredMakeList | async" [value]="option.name" (onSelectionChange)="getModels(option.id); model.enable(); this.selectedmake=option.id;">
+          {{option.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Model</mat-label>
+      <input type="text"
+             placeholder="Pick model"
+             aria-label="Number"
+             matInput
+             [formControl]="model"
+             [matAutocomplete]="auto1">
+      <mat-autocomplete #auto1="matAutocomplete">
+        <mat-option *ngFor="let option of filteredModelList | async" [value]="option.name" (onSelectionChange)="this.selectedmodel=option.id;">
+          {{option.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <div>
+      <mat-form-field appearance="fill" floatLabel="always">
+        <mat-label>Min Price</mat-label>
+        <input matInput type="number"
+               formControlName="priceMin" placeholder="0" min="0">
+        <span matSuffix>€</span>
+      </mat-form-field>
+      <mat-form-field appearance="fill" floatLabel="always">
+        <mat-label>Max Price</mat-label>
+        <input matInput type="number"
+               formControlName="priceMax" placeholder="0" min="0">
+        <span matSuffix>€</span>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="fill" floatLabel="always">
+        <mat-label>Registered Year From</mat-label>
+        <input matInput type="number"
+               formControlName="yearMin" placeholder="0" min="1950" max="2022">
+      </mat-form-field>
+      <mat-form-field appearance="fill" floatLabel="always">
+        <mat-label>Registered Year Up To</mat-label>
+        <input matInput type="number"
+               formControlName="yearMax" placeholder="0" min ="1950" max="2022">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="fill" floatLabel="always">
+        <mat-label>Min KM</mat-label>
+        <input matInput type="number"
+               formControlName="kmMin" placeholder="0" min="0">
+        <span matSuffix>km</span>
+      </mat-form-field>
+      <mat-form-field appearance="fill" floatLabel="always">
+        <mat-label>Max KM</mat-label>
+        <input matInput formControlName="kmMax" type="number" placeholder="0" min="0">
+        <span matSuffix>km</span>
+      </mat-form-field>
+      </div>
+<div>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Fuel</mat-label>
+    <input type="text"
+           placeholder="Pick Fuel Type"
+           aria-label="Number"
+           matInput
+           [formControl]="fuel"
+           [matAutocomplete]="auto3">
+    <mat-autocomplete #auto3="matAutocomplete">
+      <mat-option *ngFor="let option of filteredFuelList | async" [value]="option.fuel" (onSelectionChange)="this.selectedfuel=option.id;">
+        {{option.fuel}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Vehicle Type</mat-label>
+    <input type="text"
+           placeholder="Pick Vehicle Type"
+           aria-label="Number"
+           matInput
+           [formControl]="type"
+           [matAutocomplete]="auto4">
+    <mat-autocomplete #auto4="matAutocomplete">
+      <mat-option *ngFor="let option of filteredTypeList | async" [value]="option.type" (onSelectionChange)="this.selectedtype=option.id;">
+        {{option.type}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</div>
+    <div>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Color</mat-label>
+        <input type="text"
+               placeholder="Pick color"
+               aria-label="Number"
+               matInput
+               [formControl]="color"
+               [matAutocomplete]="auto2">
+        <mat-autocomplete #auto2="matAutocomplete">
+          <mat-option *ngFor="let option of filteredColorsList | async" [value]="option.color"  (onSelectionChange)="this.selectedcolor=option.id;">
+            {{option.color}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Country</mat-label>
+        <input type="text"
+               placeholder="Pick a Country"
+               aria-label="Number"
+               matInput
+               [formControl]="country"
+               [matAutocomplete]="auto5">
+        <mat-autocomplete #auto5="matAutocomplete">
+          <mat-option *ngFor="let option of filteredCountryList | async" [value]="option.name" (onSelectionChange)="this.selectedcountry=option.countryID;">
+            {{option.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <p>Condition: </p>
+    <mat-radio-group aria-label="Condition"
+    [(ngModel)]="condition"
+    [ngModelOptions]="{standalone: true}">
+      <mat-radio-button value="new">New</mat-radio-button>
+      <mat-radio-button value="used">Used</mat-radio-button>
+    </mat-radio-group>
+  </form>
+  <div class="mt-2">
+    <button mat-raised-button color="primary" aria-label="Example icon button with a delete icon" (click)="submit()">
+      <mat-icon>search</mat-icon>
+      Search
+    </button>
+  </div>
+</div>

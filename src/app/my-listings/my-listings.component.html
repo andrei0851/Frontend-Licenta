@@ -1,0 +1,35 @@
+<div class="container">
+  <h2 class="mb-3">My listings</h2>
+  <div *ngFor="let car of vehicles">
+    <app-vechile-card
+      [vehicle]="car">
+    </app-vechile-card>
+    <div class="d-flex-row mb-3">
+      <button class="btn btn-success me-1" (click)="changeID(car.id)" type="button" data-toggle="collapse" data-target="#collapse" aria-expanded="false" aria-controls="collapse">
+        Promote
+      </button>
+      <button class="btn btn-primary me-1" type="button" (click)="edit(car)">
+        Edit listing
+      </button>
+      <button class="btn btn-danger" type="button" (click)="delete(car.id)">
+        Delete Listing
+      </button>
+    </div>
+    <div class="collapse" id="collapse">
+      <div class="card card-body promotecard">
+        <h4>Select Period</h4>
+        <mat-form-field appearance="fill">
+          <mat-label>Promote for: </mat-label>
+          <mat-select (selectionChange)="changeSelection()" [(value)]="selected">
+            <mat-option value="1">One day</mat-option>
+            <mat-option value="3">Three days</mat-option>
+            <mat-option value="7">Seven days</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="paypal mt-3">
+        <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+      </div>
+    </div>
+  </div>
+</div>

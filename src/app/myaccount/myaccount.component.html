@@ -1,0 +1,182 @@
+<div class="container-lg">
+  <h1>Account settings</h1>
+  <h2>Welcome {{name}}</h2>
+  <img src="{{profilepicture}}">
+  <div class="d-flex flex-row my-3">
+    <div>
+      <input hidden (change)="onFileSelected($event)" type="file" accept="image/*" #file>
+      <button (click)="file.click()" mat-fab color="accent" aria-label="Change Photo">
+        <mat-icon>add_a_photo</mat-icon>
+      </button>
+    </div>
+    <div>
+      <button (click)="deletePhoto()"mat-fab color="accent" class="ml-3" aria-label="Delete Photo">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="row">
+    <div class="col-md-5">
+      <h3>Change password</h3>
+      <div class="ms-lg-auto">
+        <div
+          class="alert alert-danger"
+          role="alert"
+          *ngIf="changepassForm.invalid && submittedPressedPass"
+        >
+          Form is invalid! Make sure you filled all fields.
+        </div>
+        <div *ngIf="errormessagePass">
+
+          <div class=
+          "alert alert-danger alert-dismissible" role="alert"
+          >{{errormessagePass}}</div>
+
+        </div>
+        <div *ngIf="successpass">
+
+          <div
+            class="alert alert-success"
+            role="alert"
+          >Password changed successfully</div>
+
+        </div>
+      </div>
+      <form [formGroup]="changepassForm">
+          <mat-form-field appearance="outline" floatLabel="always">
+            <mat-label>Old Password</mat-label>
+            <input matInput
+                   type="password"
+                   formControlName="oldpassword"
+                   maxlength="30"
+                   minlength="8"
+                   required
+            />
+            <div *ngIf="oldpassword?.invalid && oldpassword?.touched">
+              <div *ngIf="oldpassword?.hasError('required')">
+                Old Password is required
+              </div>
+            </div>
+          </mat-form-field>
+        <mat-form-field appearance="outline" floatLabel="always">
+          <mat-label>New Password</mat-label>
+          <input
+            matInput
+            type="password"
+            formControlName="newpassword"
+            maxlength="30"
+            minlength="8"
+            required
+          />
+          <div *ngIf="newpassword?.invalid && newpassword?.touched">
+            <div *ngIf="newpassword?.hasError('required')">
+              New Password is required
+            </div>
+          </div>
+        </mat-form-field>
+        <mat-form-field appearance="outline" floatLabel="always">
+          <mat-label>Confirm New Password</mat-label>
+          <input
+            matInput
+            type="password"
+            formControlName="confnewpassword"
+            maxlength="30"
+            minlength="8"
+            required
+          />
+          <div *ngIf="confnewpassword?.invalid && confnewpassword?.touched">
+            <div *ngIf="confnewpassword?.hasError('required')">
+              Confirm New Password is required
+            </div>
+          </div>
+          <div *ngIf="newpassword?.touched && changepassForm?.hasError('confnewPass')">New Password and Confirm Password must match.</div>
+        </mat-form-field>
+      </form>
+        <div class="m-lg-auto">
+          <button mat-raised-button color="primary" type="submit" (click)="submitpass()">
+            Change Password
+          </button>
+        </div>
+    </div>
+    <div class="col-md-5">
+      <h3>Change Email</h3>
+      <div class="ms-lg-auto">
+        <div
+          class="alert alert-danger"
+          role="alert"
+          *ngIf="changeEmailForm.invalid && submittedPressedEmail"
+        >
+          Form is invalid! Make sure you filled all fields.
+        </div>
+        <div *ngIf="errormessageEmail">
+
+          <div class=
+                 "alert alert-danger alert-dismissible" role="alert"
+          >{{errormessageEmail}}</div>
+
+        </div>
+        <div *ngIf="successemail">
+
+          <div
+            class="alert alert-success"
+            role="alert"
+          >Email changed successfully</div>
+
+        </div>
+      </div>
+      <form [formGroup]="changeEmailForm">
+        <mat-form-field appearance="outline" floatLabel="always">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            type="password"
+            formControlName="password"
+            maxlength="30"
+            minlength="8"
+            required
+          />
+          <div *ngIf="oldpassword?.invalid && oldpassword?.touched">
+            <div *ngIf="oldpassword?.hasError('required')">
+              Password is required
+            </div>
+          </div>
+        </mat-form-field>
+        <mat-form-field appearance="outline" floatLabel="always">
+          <mat-label>New Email</mat-label>
+          <input
+            matInput
+            type="text"
+            formControlName="newEmail"
+            required
+          />
+          <div *ngIf="newEmail?.invalid && newEmail?.touched">
+            <div *ngIf="newEmail?.hasError('required')">
+              New Email Address is required
+            </div>
+          </div>
+        </mat-form-field>
+        <mat-form-field appearance="outline" floatLabel="always">
+          <mat-label>Confirm New Email Address</mat-label>
+          <input
+            matInput
+            type="text"
+            formControlName="confirmnewEmail"
+            required
+          />
+          <div *ngIf="confirmNewEmail?.invalid && confirmNewEmail?.touched">
+            <div *ngIf="confirmNewEmail?.hasError('required')">
+              Confirm New Email Address is required
+            </div>
+          </div>
+          <div *ngIf="newEmail?.touched && changeEmailForm?.hasError('confnewEmail')">New Email Address and Confirm New Email Address must match.</div>
+        </mat-form-field>
+      </form>
+      <div class="m-lg-auto">
+        <button mat-raised-button color="primary" type="submit" (click)="submitEmail()">
+          Change Email
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

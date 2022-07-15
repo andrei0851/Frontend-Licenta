@@ -1,0 +1,155 @@
+<div class="container-lg">
+  <h1>Company Manager</h1>
+  <h3>Add a branch</h3>
+  <form [formGroup]="branchForm">
+    <div class="row">
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Branch Name</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="name"
+          required
+          minlength="5"
+        >
+        <div
+          *ngIf="
+              name?.invalid &&
+              name?.touched &&
+              name?.hasError('required')
+            "
+        >
+          Branch Name is required
+        </div>
+        <div *ngIf="
+              name?.invalid &&
+              name?.touched &&
+              name?.hasError('minlength')">
+          Branch Name must be at least 5 characters long.
+        </div>
+      </mat-form-field>
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Branch Adress</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="address"
+          required
+          minlength="5"
+        >
+        <div
+          *ngIf="
+              address?.invalid &&
+              address?.touched &&
+              address?.hasError('required')
+            "
+        >
+          Company Address is required
+        </div>
+        <div *ngIf="
+              address?.invalid &&
+              address?.touched &&
+              address?.hasError('minlength')">
+          Company Address must be at least 5 characters long.
+        </div>
+      </mat-form-field>
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Branch Phone Number</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="phonenumber"
+          required
+          minlength="10"
+          placeholder="+40710123456"
+        >
+        <div
+          *ngIf="
+              phonenumber?.invalid &&
+              phonenumber?.touched &&
+              phonenumber?.hasError('required')
+            "
+        >
+          Phone Number is required
+        </div>
+        <div *ngIf="
+              phonenumber?.invalid &&
+              phonenumber?.touched &&
+              phonenumber?.hasError('minlength')">
+          Phone Number must be at least 10 characters long.
+        </div>
+      </mat-form-field>
+    </div>
+  </form>
+  <button mat-raised-button color="primary" (click)="submit()">
+    Add branch
+  </button>
+  <div class="row mt-3">
+    <h3>Delete branch</h3>
+    <mat-form-field appearance="outline" floatLabel="always">
+      <mat-label>Branch</mat-label>
+      <input type="text"
+             placeholder="Pick Branch"
+             aria-label="Number"
+             matInput
+             [formControl]="deleteBranch"
+             [matAutocomplete]="auto1">
+      <mat-autocomplete #auto1="matAutocomplete">
+        <mat-option *ngFor="let option of filteredBranchesDelete | async" (onSelectionChange)="this.branchdelete=option.id" [value]="option.name">
+          {{option.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <div>
+      <button mat-raised-button color="primary" (click)="delBranch()">
+        Delete branch
+      </button>
+    </div>
+  </div>
+    <form [formGroup]="userBranch">
+      <div class="row mt-3">
+        <h3>Add Seller to Branch</h3>
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Branch</mat-label>
+        <input type="text"
+               placeholder="Pick Branch"
+               aria-label="Number"
+               matInput
+               [formControl]="branchID"
+               [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let option of filteredBranches | async" (onSelectionChange)="this.branch=option.id" [value]="option.name">
+            {{option.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Seller Mail</mat-label>
+        <input matInput
+               type="text"
+               formControlName="userMail">
+        <div
+          *ngIf="
+              userMail?.invalid &&
+              userMail?.touched &&
+              userMail?.hasError('required')
+            "
+        >
+          Seller Mail is required
+        </div>
+        <div
+          *ngIf="
+              userMail?.invalid &&
+              userMail?.touched &&
+              userMail?.hasError('email')
+            "
+        >
+          Seller Mail is invalid
+        </div>
+      </mat-form-field>
+      </div>
+    </form>
+    <button mat-raised-button color="primary" (click)="addUser()">
+      Add seller to branch
+    </button>
+</div>

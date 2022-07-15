@@ -1,0 +1,8 @@
+<div class="container">
+  <h2 class="mb-3">Favorites</h2>
+  <div *ngFor="let car of vehicles">
+    <app-vechile-card
+      [vehicle]="car"
+    ></app-vechile-card>
+  </div>
+</div>

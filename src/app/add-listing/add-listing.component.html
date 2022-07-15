@@ -1,0 +1,193 @@
+<div class="container">
+  <h2>Add a listing</h2>
+  <div *ngIf="this.role == 'User'"><h3><u>Remaining listings available: {{this.remainingListings}}</u></h3></div>
+  <h4>Photos</h4>
+  <div class="d-inline-flex">
+    <div>
+      <input hidden (change)="selectImage1($event)" type="file" accept="image/*" #image1>
+      <mat-card (click)="image1.click()">
+        <mat-icon *ngIf="!pic1" class="text-center">add</mat-icon>
+        <img height="210" width="190" mat-card-image *ngIf="this.pic1" [src]="this.pic1">
+      </mat-card>
+      <input hidden (change)="selectImage2($event)" type="file" accept="image/*" #image2>
+      <mat-card (click)="image2.click()">
+        <mat-icon *ngIf="!pic2" class="text-center">add</mat-icon>
+        <img height="210" width="190" mat-card-image *ngIf="this.pic2" [src]="this.pic2">
+      </mat-card>
+    </div>
+    <div>
+      <input hidden (change)="selectImage3($event)" type="file" accept="image/*" #image3>
+      <mat-card (click)="image3.click()">
+        <mat-icon *ngIf="!pic3" class="text-center">add</mat-icon>
+        <img height="210" width="190" mat-card-image *ngIf="this.pic3" [src]="this.pic3">
+      </mat-card>
+      <input hidden (change)="selectImage4($event)" type="file" accept="image/*" #image4>
+      <mat-card (click)="image4.click()">
+        <mat-icon *ngIf="!pic4" class="text-center">add</mat-icon>
+        <img height="210" width="190" mat-card-image *ngIf="this.pic4" [src]="this.pic4">
+      </mat-card>
+    </div>
+  </div>
+  <form class="example-form" [formGroup]="addlisting">
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Make</mat-label>
+      <input type="text"
+             placeholder="Pick make"
+             aria-label="Number"
+             matInput
+             required
+             [formControl]="make"
+             [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredMakeList | async" [value]="option.name" (onSelectionChange)="getModels(option.id); model.enable(); this.selectedmake=option.id;">
+          {{option.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Model</mat-label>
+      <input type="text"
+             placeholder="Pick model"
+             aria-label="Number"
+             matInput
+             required
+             [formControl]="model"
+             [matAutocomplete]="auto1">
+      <mat-autocomplete #auto1="matAutocomplete">
+        <mat-option *ngFor="let option of filteredModelList | async" [value]="option.name" (onSelectionChange)="this.selectedmodel=option.id;">
+          {{option.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <div>
+      <mat-form-field appearance="fill" floatLabel="always">
+        <mat-label>Price</mat-label>
+        <input matInput type="number"
+               formControlName="price" placeholder="0" min="0">
+        <span matSuffix>€</span>
+      </mat-form-field>
+      <mat-form-field appearance="fill" floatLabel="always">
+        <mat-label>VIN</mat-label>
+        <input matInput type="text"
+               formControlName="VIN" placeholder="JHMWD5523DS022721">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="fill" floatLabel="always">
+        <mat-label>Manufacture Year</mat-label>
+        <input matInput type="number"
+               formControlName="manufactureYear" placeholder="0" min="1950" max="2022">
+      </mat-form-field>
+      <mat-form-field appearance="fill" floatLabel="always">
+        <mat-label>KM</mat-label>
+        <input matInput type="number"
+               formControlName="km" placeholder="0" min="0">
+        <span matSuffix>km</span>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="fill" floatLabel="always">
+        <mat-label>Power</mat-label>
+        <input matInput type="number"
+               formControlName="power" placeholder="0" min="1">
+        <span matSuffix>BHP</span>
+      </mat-form-field>
+      <mat-form-field appearance="fill" floatLabel="always">
+        <mat-label>Cubic Capacity</mat-label>
+        <input matInput type="number"
+               formControlName="cc" placeholder="0" min="100">
+        <span matSuffix>cc</span>
+      </mat-form-field>
+    </div>
+    <div>
+      <div>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Fuel</mat-label>
+          <input type="text"
+                 placeholder="Pick Fuel Type"
+                 aria-label="Number"
+                 matInput
+                 [formControl]="fuel"
+                 [matAutocomplete]="auto3">
+          <mat-autocomplete #auto3="matAutocomplete">
+            <mat-option *ngFor="let option of filteredFuelList | async" [value]="option.fuel" (onSelectionChange)="this.selectedfuel=option.id;">
+              {{option.fuel}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Vehicle Type</mat-label>
+          <input type="text"
+                 placeholder="Pick Vehicle Type"
+                 aria-label="Number"
+                 matInput
+                 required
+                 [formControl]="type"
+                 [matAutocomplete]="auto4">
+          <mat-autocomplete #auto4="matAutocomplete">
+            <mat-option *ngFor="let option of filteredTypeList | async" [value]="option.type" (onSelectionChange)="this.selectedtype=option.id;">
+              {{option.type}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+    </div>
+    <div>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Color</mat-label>
+        <input type="text"
+               placeholder="Pick color"
+               aria-label="Number"
+               matInput
+               required
+               [formControl]="color"
+               [matAutocomplete]="auto2">
+        <mat-autocomplete #auto2="matAutocomplete">
+          <mat-option *ngFor="let option of filteredColorsList | async" [value]="option.color"  (onSelectionChange)="this.selectedcolor=option.id;">
+            {{option.color}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Country</mat-label>
+        <input type="text"
+               placeholder="Pick a Country"
+               aria-label="Number"
+               matInput
+               required
+               [formControl]="country"
+               [matAutocomplete]="auto5">
+        <mat-autocomplete #auto5="matAutocomplete">
+          <mat-option *ngFor="let option of filteredCountryList | async" [value]="option.name" (onSelectionChange)="this.selectedcountry=option.countryID;">
+            {{option.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <p>Condition*: </p>
+    <mat-radio-group aria-label="Condition"
+                     required
+                     [(ngModel)]="condition"
+                     [ngModelOptions]="{standalone: true}">
+      <mat-radio-button value="new">New</mat-radio-button>
+      <mat-radio-button value="used">Used</mat-radio-button>
+    </mat-radio-group>
+    <div>
+      <mat-form-field appearance="fill" class="textarea">
+        <mat-label>Description of the vehicle</mat-label>
+        <textarea matInput
+                  rows="7"
+                  formControlName="description"
+                  placeholder="Ex. It drives well, MOT untill.."></textarea>
+      </mat-form-field>
+    </div>
+  </form>
+  <div class="d-inline-flex">
+    <button mat-raised-button color="primary" class="mb-3" (click)="submit()">
+      <mat-icon>add_circle_outline</mat-icon>
+      Add listing
+    </button>
+    <h4 class="m-lg-3">* fields are required.</h4>
+  </div>
+</div>

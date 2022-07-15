@@ -1,0 +1,76 @@
+ <div class="container-lg">
+      <h2>Quick Search</h2>
+      Number of listings posted: {{total}}
+      <form [formGroup]="qsearchform" class="mt-3">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Make</mat-label>
+          <input type="text"
+                 placeholder="Pick make"
+                 aria-label="Number"
+                 matInput
+                 [formControl]="make"
+                 [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredMakeList | async" [value]="option.name" (onSelectionChange)="getModels(option.id); model.enable(); this.selectedmake=option.id">
+              {{option.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Model</mat-label>
+          <input type="text"
+                 placeholder="Pick model"
+                 aria-label="Number"
+                 matInput
+                 [formControl]="model"
+                 [matAutocomplete]="auto1">
+          <mat-autocomplete #auto1="matAutocomplete">
+            <mat-option *ngFor="let option of filteredModelList | async" [value]="option.name" (onSelectionChange)="this.selectedmodel=option.id">
+              {{option.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <div>
+          <mat-form-field appearance="fill" floatLabel="always">
+            <mat-label>Min Price</mat-label>
+            <input matInput type="number"
+                   formControlName="priceMin" placeholder="0" min="0">
+            <span matSuffix>€</span>
+          </mat-form-field>
+          <mat-form-field appearance="fill" floatLabel="always">
+            <mat-label>Max Price</mat-label>
+            <input matInput type="number"
+                   formControlName="priceMax" placeholder="0" min="0">
+            <span matSuffix>€</span>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="fill" floatLabel="always">
+            <mat-label>Min KM</mat-label>
+            <input matInput type="number"
+                   formControlName="kmMin" placeholder="0" min="0">
+            <span matSuffix>km</span>
+          </mat-form-field>
+          <mat-form-field appearance="fill" floatLabel="always">
+            <mat-label>Max KM</mat-label>
+            <input matInput formControlName="kmMax" type="number" placeholder="0" min="0">
+            <span matSuffix>km</span>
+          </mat-form-field>
+
+        </div>
+
+      </form>
+   <div>
+     <button mat-raised-button color="primary" (click)="submit()" class="mb-3">
+       <mat-icon>search</mat-icon>
+       Search
+     </button>
+   </div>
+   <h2 class="mb-3">Promoted Vehicles: </h2>
+   <div *ngFor="let car of vehicles">
+     <app-vechile-card
+       [vehicle]="car"
+     ></app-vechile-card>
+   </div>
+ </div>

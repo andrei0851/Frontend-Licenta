@@ -1,0 +1,42 @@
+<div class="container">
+  <form [formGroup]="changepassForm">
+    <mat-form-field appearance="outline" floatLabel="always" class="me-3">
+      <mat-label>New Password</mat-label>
+      <input
+        matInput
+        type="password"
+        formControlName="newpassword"
+        maxlength="30"
+        minlength="8"
+        required
+      />
+      <div *ngIf="newpassword?.invalid && newpassword?.touched">
+        <div *ngIf="newpassword?.hasError('required')">
+          New Password is required
+        </div>
+      </div>
+    </mat-form-field>
+    <mat-form-field appearance="outline" floatLabel="always">
+      <mat-label>Confirm New Password</mat-label>
+      <input
+        matInput
+        type="password"
+        formControlName="confnewpassword"
+        maxlength="30"
+        minlength="8"
+        required
+      />
+      <div *ngIf="confnewpassword?.invalid && confnewpassword?.touched">
+        <div *ngIf="confnewpassword?.hasError('required')">
+          Confirm New Password is required
+        </div>
+      </div>
+      <div *ngIf="newpassword?.touched && changepassForm?.hasError('confnewPass')">New Password and Confirm Password must match.</div>
+    </mat-form-field>
+  </form>
+  <div class="m-lg-auto">
+    <button mat-raised-button color="primary" type="submit" (click)="submit()">
+      Change Password
+    </button>
+  </div>
+</div>

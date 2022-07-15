@@ -1,0 +1,14 @@
+<div class="container">
+  <h2>Company name: {{this.company?.companyName}}</h2>
+  <h2>Company Address: <a [href]="'http://maps.google.com/?q=' + this.company?.address">{{this.company?.address}}</a></h2>
+  <h2>Branch name: {{this.branch?.name}}</h2>
+  <h3>Branch Address: <a [href]="'http://maps.google.com/?q=' + this.branch?.address">{{this.branch?.address}}</a></h3>
+  <h3>Phone number: <a [href]="'tel:' + branch?.phoneNumber">{{branch?.phoneNumber}}</a></h3>
+  <br>
+  <h2>Branch Listings: </h2>
+  <div *ngFor="let car of vehicles">
+    <app-vechile-card
+      [vehicle]="car"
+    ></app-vechile-card>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+<mat-card class="d-flex flex-row mb-3">
+  <div class="d-flex col-md-3">
+    <img mat-card-image [src]="vehicle?.firstImage" width=90px height="150px" class="mt-0 border rounded">
+  </div>
+    <div class="d-flex flex-column col">
+      <mat-card-title>
+        <a href="/details/{{vehicle?.id}}">{{vehicle?.manufactureYear}} {{vehicle?.make}} {{vehicle?.model}}</a>
+      </mat-card-title>
+      <mat-card-subtitle>
+        KM: {{vehicle?.km | number}}km ○ Power: {{vehicle?.power | number}} BHP ○ Cubic Capacity: {{vehicle?.cc | number}}
+      </mat-card-subtitle>
+      <mat-card-subtitle>
+        Location: {{vehicle.country}}
+      </mat-card-subtitle>
+    </div>
+  <div class="d-flex flex-column-reverse align-self-end">
+    <div *ngIf="token">
+      <button *ngIf="vehicle?.userID != this.userid && this.isFav == false" (click)="fav()" mat-raised-button>Add to favorites <mat-icon>favorite</mat-icon></button>
+      <button *ngIf="vehicle?.userID != this.userid && this.isFav == true"  (click)="remFav()" mat-raised-button>Remove favorite</button>
+    </div>
+    <mat-card-title class="priceText">Price: {{vehicle?.price | currency: 'EUR':true:'1.0-2'}}</mat-card-title>
+  </div>
+  </mat-card>

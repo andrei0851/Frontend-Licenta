@@ -1,0 +1,12 @@
+<div class="container">
+  <h2>Buy vehicle</h2>
+  <app-vechile-card
+    [vehicle]="car"
+  ></app-vechile-card>
+  <h3>Choose payment method: </h3>
+  <div class="paypal">
+    <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+  </div>
+  <h2 style="color: darkred;">Disclaimer:</h2>
+  <p>The seller will be notified by email. It may take a few days before receiving an answer on email or a call.</p>
+</div>
